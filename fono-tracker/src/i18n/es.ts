@@ -241,6 +241,67 @@ export const es = {
         skills: ['Comprensión auditiva/lectora', 'Razonamiento verbal', 'Flexibilidad semántica'],
         ageRange: '8-13 años',
       },
+      readingQuestions: {
+        title: 'Lectura breve y preguntas',
+        description:
+          'Micro-textos con preguntas literales, inferenciales y de lenguaje figurado para fortalecer comprensión, memoria verbal y uso de evidencia.',
+        instructions:
+          'Lee o escucha el texto breve, responde cada pregunta y revisa la pista de evidencia que apoya la respuesta.',
+        therapeuticNote:
+          'Modo clínico con andamiaje: trabajar evidencia textual (“¿dónde lo dice?”), inferir causas/efectos y aclarar expresiones figuradas.',
+        labels: {
+          difficulty: 'Nivel',
+          assistMode: 'Lectura asistida (sin mostrar texto)',
+          visualOnly: 'Solo imágenes si hay pictograma',
+          reading: 'Lectura activa',
+          progressCounter: ({ current, total }: { current: number; total: number }) =>
+            `Lectura ${current} de ${total}`,
+          question: ({ type }: { type: string }) => `Pregunta (${type})`,
+          questionCounter: ({ current, total }: { current: number; total: number }) =>
+            `Pregunta ${current} de ${total}`,
+          explanation: 'Explicación',
+          evidence: 'Evidencia en el texto',
+          assistDescription:
+            'El terapeuta lee o resume en voz alta. Usa apoyos visuales y repite las ideas clave antes de preguntar.',
+          noImageFallback: 'No hay imagen para modo visual; muestra el texto o usa un apoyo externo.',
+        },
+        types: {
+          literal: 'Literal',
+          inferencial: 'Inferencial',
+          figurado: 'Figurado',
+        },
+        difficulties: {
+          1: 'Nivel 1: lectura guiada',
+          2: 'Nivel 2: inferencias moderadas',
+          3: 'Nivel 3: figurado y doble sentido',
+        },
+        actions: {
+          next: 'Siguiente pregunta',
+        },
+        feedback: {
+          correct: 'Bien. Usa la evidencia para explicarlo con tus palabras.',
+          retry: 'Casi. Revisa la pista y qué dice exactamente el texto.',
+        },
+        summary: {
+          title: 'Resumen de desempeño',
+          session: 'Sesión actual',
+          saved: 'Progreso guardado (local)',
+        },
+        empty: 'No hay lecturas para este nivel. Agrega más ítems en data.ts o cambia el filtro.',
+        goals: [
+          'Trabajar comprensión literal identificando información explícita',
+          'Favorecer inferencias causales y predictivas apoyadas en evidencia',
+          'Explorar lenguaje figurado y aclarar modismos simples',
+          'Fortalecer memoria de trabajo verbal y justificar respuestas',
+        ],
+        skills: [
+          'Comprensión lectora y auditiva',
+          'Inferencias y razonamiento verbal',
+          'Memoria de trabajo',
+          'Metacognición básica (usar evidencia)',
+        ],
+        ageRange: '7-13 años',
+      },
       storyOrder: {
         title: "Ordena la historia",
         description:

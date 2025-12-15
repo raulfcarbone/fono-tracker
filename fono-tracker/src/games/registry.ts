@@ -5,6 +5,7 @@ import { MeaningDetectiveGame } from './meaningDetective/MeaningDetectiveGame';
 import { StoryOrderGame } from './storyOrder/StoryOrderGame';
 import { AttentionRulesGame } from '../components/interactive/AttentionRulesGame';
 import { MemorySequencingGame } from '../components/interactive/MemorySequencingGame';
+import { ReadingQuestionsGame } from './readingQuestions/ReadingQuestionsGame';
 
 export type InteractiveCategory = 'lenguaje' | 'cognicion' | 'social' | 'aac' | 'narrativo';
 export type IntegrationStatus = 'integrado' | 'prototipo' | 'idea';
@@ -101,6 +102,20 @@ export const GAME_REGISTRY: GameRegistryItem[] = [
       goals: 'interactiveActivities.games.meaningDetective.goals',
       skills: 'interactiveActivities.games.meaningDetective.skills',
       ageRange: 'interactiveActivities.games.meaningDetective.ageRange',
+    },
+  },
+  {
+    id: 'reading-questions',
+    category: 'lenguaje',
+    languageIndependent: true,
+    status: 'integrado',
+    component: ReadingQuestionsGame,
+    translationKeys: {
+      title: 'interactiveActivities.games.readingQuestions.title',
+      description: 'interactiveActivities.games.readingQuestions.description',
+      goals: 'interactiveActivities.games.readingQuestions.goals',
+      skills: 'interactiveActivities.games.readingQuestions.skills',
+      ageRange: 'interactiveActivities.games.readingQuestions.ageRange',
     },
   },
   {
