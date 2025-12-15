@@ -26,6 +26,16 @@ const RECOMMENDED_INTEGRATIONS = [
         notes:
             'Clon o build estático del proyecto (React + Firebase). Sube la carpeta compilada a un hosting estático ' +
             'o expone el index.html dentro de /public/interactive/speakwell para embeberlo con fines terapéuticos.'
+    },
+    {
+        id: 'fabula-infantil',
+        title: 'Fabula Infantil / Story Builder',
+        launchUrl: 'https://marcelorvergara.github.io/Fabula-Infantil/',
+        source: 'https://github.com/marcelorvergara/Fabula-Infantil',
+        notes:
+            'Creador de historias interactivas (no solo fábulas) basado en tarjetas y narrativas breves. ' +
+            'Despliega el build en GitHub Pages, Netlify o en /public/interactive/fabula para trabajar relato, ' +
+            'secuenciación y vocabulario con imágenes y texto editable.'
     }
 ];
 
@@ -73,7 +83,7 @@ export function InteractiveActivities() {
         if (!template.launchUrl) return;
         const exists = modules?.some((m) => m.launchUrl === template.launchUrl);
         if (exists) {
-            setMessage('La integración de SpeakWell ya está en tu biblioteca.');
+            setMessage('Esta integración ya está en tu biblioteca.');
             return;
         }
 
@@ -95,8 +105,9 @@ export function InteractiveActivities() {
                     <p className="text-slate-500 text-sm mb-1">Integraciones externas</p>
                     <h1 className="text-3xl font-bold text-slate-900">Actividades interactivas</h1>
                     <p className="text-slate-500 mt-2 max-w-3xl">
-                        Registra apps o minijuegos terapéuticos (ej. SpeakWell) y ejecútalos desde la plataforma.
-                        Útil para tareas de articulación, lenguaje, voz o lectoescritura con apoyo multimedia.
+                        Registra apps o minijuegos terapéuticos (ej. SpeakWell o Fabula Infantil) y ejecútalos desde
+                        la plataforma. Útil para tareas de articulación, lenguaje, voz, lectoescritura o producción de
+                        historias con apoyo multimedia.
                     </p>
                 </div>
                 <div className="text-right text-xs text-slate-500">
@@ -128,7 +139,7 @@ export function InteractiveActivities() {
                                 <input
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    placeholder="Ej: SpeakWell demo / Juego de pares mínimos"
+                                    placeholder="Ej: SpeakWell demo / Fabula Infantil / Juego de pares mínimos"
                                     className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
@@ -141,7 +152,7 @@ export function InteractiveActivities() {
                                     className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                 />
                                 <p className="text-xs text-slate-500 mt-1">
-                                    Si copias el build de SpeakWell en /public/interactive/speakwell, apunta a /interactive/speakwell/index.html.
+                                    Si copias un build en /public/interactive/..., apunta a /interactive/[nombre]/index.html (ej: speakwell o fabula).
                                 </p>
                             </div>
                             <div>
@@ -180,9 +191,9 @@ export function InteractiveActivities() {
                             <p className="text-sm font-semibold text-slate-800">Sugerencia de integración</p>
                         </div>
                         <p className="text-sm text-slate-600">
-                            SpeakWell es un proyecto abierto con actividades de habla (saludos, vocabulario, fonemas) que pueden
-                            reutilizarse. Puedes alojar su build estático en el mismo dominio o usar su despliegue público si
-                            está disponible.
+                            SpeakWell ofrece actividades de habla (saludos, vocabulario, fonemas) y Fabula Infantil añade
+                            un constructor de historias y tarjetas narrativas. Ambos son proyectos abiertos; puedes alojar sus
+                            builds estáticos en el mismo dominio o usar sus despliegues públicos si están disponibles.
                         </p>
                         <div className="grid grid-cols-1 gap-3">
                             {RECOMMENDED_INTEGRATIONS.map((integration) => (
@@ -273,7 +284,7 @@ export function InteractiveActivities() {
                         ) : (
                             <div className="border border-dashed border-slate-200 rounded-lg p-6 text-center text-slate-500">
                                 <p className="font-medium text-slate-700">No hay actividades interactivas guardadas.</p>
-                                <p className="text-sm mt-1">Agrega una URL (ej. despliegue de SpeakWell) para habilitar el visor.</p>
+                                <p className="text-sm mt-1">Agrega una URL (ej. despliegue de SpeakWell o Fabula Infantil) para habilitar el visor.</p>
                             </div>
                         )}
                     </div>
@@ -331,7 +342,7 @@ export function InteractiveActivities() {
                         ) : (
                             <div className="border border-dashed border-slate-200 rounded-lg p-5 text-center text-slate-500">
                                 <p className="font-medium text-slate-700">Aún no registras integraciones.</p>
-                                <p className="text-sm mt-1">Agrega la URL desplegada de SpeakWell o cualquier otro recurso interactivo.</p>
+                                <p className="text-sm mt-1">Agrega la URL desplegada de SpeakWell, Fabula Infantil o cualquier otro recurso interactivo.</p>
                             </div>
                         )}
                     </div>
