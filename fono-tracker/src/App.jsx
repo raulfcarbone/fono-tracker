@@ -7,10 +7,11 @@ import { PatientDetail } from './pages/PatientDetail';
 import { Dashboard } from './pages/Dashboard';
 import { Calendar } from './pages/Calendar';
 import { Settings } from './pages/Settings';
-import { Activities } from './pages/Activities';
+import { ActivityCreatorPage } from './pages/ActivityCreatorPage';
 import { InteractiveActivities } from './pages/InteractiveActivities';
 import { InteractiveGameRunnerPage } from './pages/InteractiveGameRunnerPage';
 import { ReadingLibraryPage } from './pages/ReadingLibraryPage';
+import { ActivityPreviewPage } from './pages/ActivityPreviewPage';
 
 
 
@@ -22,7 +23,8 @@ export default function App() {
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="calendar" element={<Calendar />} />
-          <Route path="activities" element={<Activities />} />
+          <Route path="activities" element={<ActivityCreatorPage />} />
+          <Route path="actividades/preview/:draftId" element={<ActivityPreviewPage />} />
           <Route path="actividades-interactivas" element={<InteractiveActivities />} />
           <Route path="actividades-interactivas/jugar/:gameId" element={<InteractiveGameRunnerPage />} />
           <Route path="biblioteca-lecturas" element={<ReadingLibraryPage />} />

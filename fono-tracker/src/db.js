@@ -2,6 +2,22 @@ import Dexie from 'dexie';
 
 export const db = new Dexie('FonoTrackerDB');
 
+// Version 8: Activity templates + reading library + activity manager
+db.version(8).stores({
+    patients: '++id, name, diagnosis, createdAt',
+    evaluations: '++id, patientId, date, type',
+    sessions: '++id, patientId, date, objectiveId',
+    objectives: '++id, patientId, area, status',
+    scores: '++id, sessionId, objectiveId',
+    appointments: '++id, patientId, start, end, type, status, notes, clinicalNotes, meetingLink',
+    meetingLinks: '++id, name, url',
+    patientDocs: '++id, patientId, name, type, date', // Store file blob in 'file' prop (not indexed)
+    patientFormats: '++id, patientId, title, createdAt', // Store content in 'content' prop
+    activities: '++id, title, category, createdAt',
+    readingLibrary: 'id, title, difficulty',
+    activityDrafts: 'id, updatedAt'
+});
+
 // Version 7: Reading library + activity manager
 db.version(7).stores({
     patients: '++id, name, diagnosis, createdAt',
