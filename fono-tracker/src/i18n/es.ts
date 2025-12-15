@@ -51,6 +51,10 @@ export const es = {
         "Usa propiedades languageIndependent y status para priorizar módulos clínicos listos.",
       ],
     },
+    notice: {
+      title: "Modo pantalla amplia y catálogo clínico",
+      body: "Puedes abrir cualquier actividad en /actividades-interactivas/jugar/:id para trabajar en sesión, compartir pantalla o usarla a pantalla completa.",
+    },
     games: {
       findAndName: {
         title: "Encuentra y nombra",
@@ -455,6 +459,53 @@ export const es = {
           },
         },
       },
+    },
+  },
+  activityCreator: {
+    hero: {
+      badge: "Creador de actividades",
+      title: "Plantillas + banco de estímulos",
+      description: "Diseña actividades reutilizables con pictogramas ARASAAC, imágenes o textos para fortalecer lenguaje y cognición en sesión.",
+    },
+    notice: {
+      title: "Revisa la página de actividades",
+      body: "Guarda un borrador y ábrelo en vista previa amplia antes de la sesión para evitar errores de carga y reforzar actividades de lenguaje.",
+    },
+    form: {
+      title: "Título",
+      category: "Categoría",
+      objective: "Objetivo terapéutico",
+      instructions: "Instrucciones",
+      template: "Plantilla",
+      assetBank: "Banco de estímulos",
+      templateEditor: "Editor de plantilla",
+    },
+    labels: {
+      wideMode: "Pantalla amplia",
+      wideHint: "Usa la vista previa para imprimir o proyectar en sesión.",
+    },
+    placeholders: {
+      title: "Ej. Clasifica alimentos vs animales",
+      category: "lenguaje / cognición / lectoescritura",
+      objective: "Incrementar vocabulario funcional, clasificación semántica, atención...",
+      instructions: "Ajustes, apoyos visuales, graduación de dificultad",
+    },
+    actions: {
+      newDraft: "Nuevo borrador",
+      saveDraft: "Guardar borrador",
+      openPreview: "Vista previa amplia",
+      edit: "Editar",
+      preview: "Vista previa",
+      duplicate: "Duplicar",
+      delete: "Eliminar",
+    },
+    drafts: {
+      title: "Borradores guardados",
+      countLabel: "actividades",
+      noObjective: "Sin objetivo",
+      assetsLabel: "recursos",
+      withInstructions: "Con instrucción",
+      noInstructions: "Sin instrucción",
     },
   },
 };

@@ -15,6 +15,11 @@ export function InteractiveActivities() {
         <p className="text-slate-600 max-w-3xl">{t('interactiveActivities.hero.description')}</p>
       </div>
 
+      <div className="bg-sky-50 border border-sky-100 text-sky-900 rounded-xl p-4 text-sm shadow-sm">
+        <p className="font-semibold">{t('interactiveActivities.notice.title')}</p>
+        <p className="mt-1">{t('interactiveActivities.notice.body')}</p>
+      </div>
+
       <div className="grid gap-6">
         {games.map(game => (
           <GameCard key={game.id} game={game} t={t} />

@@ -5,6 +5,7 @@ import { ACTIVITY_TEMPLATES, getTemplateById } from "../activityTemplates/regist
 import { ActivityDraft, ActivityTemplateId, Asset } from "../activityTemplates/types";
 import { AssetBank } from "../components/AssetBank/AssetBank";
 import { db } from "../db";
+import { useTranslation } from "../i18n";
 
 const LOCAL_KEY = "fono.activities";
 
@@ -28,6 +29,7 @@ function writeLocalDrafts(drafts: ActivityDraft[]) {
 
 export function ActivityCreatorPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("lenguaje");
@@ -150,11 +152,9 @@ export function ActivityCreatorPage() {
     <div className="space-y-8 animate-in fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs uppercase tracking-wide text-teal-600 font-bold">Creador de actividades</p>
-          <h1 className="text-3xl font-bold text-slate-900">Plantillas + banco de estímulos</h1>
-          <p className="text-slate-600 mt-2 max-w-3xl">
-            Diseña actividades reusables con pictogramas ARASAAC, imágenes o textos, pensadas para uso clínico en sesión.
-          </p>
+          <p className="text-xs uppercase tracking-wide text-teal-600 font-bold">{t("activityCreator.hero.badge")}</p>
+          <h1 className="text-3xl font-bold text-slate-900">{t("activityCreator.hero.title")}</h1>
+          <p className="text-slate-600 mt-2 max-w-3xl">{t("activityCreator.hero.description")}</p>
         </div>
         <div className="flex space-x-2 text-sm">
           <button
@@ -162,16 +162,21 @@ export function ActivityCreatorPage() {
             type="button"
             onClick={resetForm}
           >
-            Nuevo borrador
+            {t("activityCreator.actions.newDraft")}
           </button>
           <button
             className="px-4 py-2 bg-teal-600 text-white rounded-lg"
             type="button"
             onClick={handleSave}
           >
-            Guardar borrador
+            {t("activityCreator.actions.saveDraft")}
           </button>
         </div>
+      </div>
+
+      <div className="bg-amber-50 border border-amber-100 text-amber-900 rounded-xl p-4 text-sm shadow-sm">
+        <p className="font-semibold">{t("activityCreator.notice.title")}</p>
+        <p className="mt-1">{t("activityCreator.notice.body")}</p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6 items-start">
@@ -179,51 +184,51 @@ export function ActivityCreatorPage() {
           <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800">Título</label>
+                <label className="block text-sm font-semibold text-slate-800">{t("activityCreator.form.title")}</label>
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2"
-                  placeholder="Ej. Clasifica alimentos vs animales"
+                  placeholder={t("activityCreator.placeholders.title")}
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-800">Categoría</label>
+                <label className="block text-sm font-semibold text-slate-800">{t("activityCreator.form.category")}</label>
                 <input
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2"
-                  placeholder="lenguaje / cognición / lectoescritura"
+                  placeholder={t("activityCreator.placeholders.category")}
                 />
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800">Objetivo terapéutico</label>
+                <label className="block text-sm font-semibold text-slate-800">{t("activityCreator.form.objective")}</label>
                 <textarea
                   value={objective}
                   onChange={(e) => setObjective(e.target.value)}
                   className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2"
                   rows={3}
-                  placeholder="Incrementar vocabulario funcional, clasificación semántica, atención..."
+                  placeholder={t("activityCreator.placeholders.objective")}
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-800">Instrucciones</label>
+                <label className="block text-sm font-semibold text-slate-800">{t("activityCreator.form.instructions")}</label>
                 <textarea
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
                   className="w-full mt-1 border border-slate-300 rounded-lg px-3 py-2"
                   rows={3}
-                  placeholder="Ajustes, apoyos visuales, graduación de dificultad"
+                  placeholder={t("activityCreator.placeholders.instructions")}
                 />
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4 items-start">
               <div>
-                <label className="block text-sm font-semibold text-slate-800">Plantilla</label>
+                <label className="block text-sm font-semibold text-slate-800">{t("activityCreator.form.template")}</label>
                 <select
                   value={templateId}
                   onChange={(e) => handleTemplateChange(e.target.value as ActivityTemplateId)}
@@ -238,21 +243,21 @@ export function ActivityCreatorPage() {
                 <p className="text-xs text-slate-500 mt-1">{selectedTemplate.description}</p>
               </div>
               <div className="flex items-center space-x-3 text-sm text-slate-600">
-                <span className="px-2 py-1 bg-teal-50 text-teal-700 rounded-lg">Pantalla amplia</span>
-                <p>Usa la vista previa para imprimir o proyectar en sesión.</p>
+                <span className="px-2 py-1 bg-teal-50 text-teal-700 rounded-lg">{t("activityCreator.labels.wideMode")}</span>
+                <p>{t("activityCreator.labels.wideHint")}</p>
               </div>
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-slate-800">Banco de estímulos</h3>
+              <h3 className="text-sm font-semibold text-slate-800">{t("activityCreator.form.assetBank")}</h3>
               <AssetBank assets={assets} onChangeAssets={setAssets} />
             </div>
 
             <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-800">Editor de plantilla</h3>
+                <h3 className="text-sm font-semibold text-slate-800">{t("activityCreator.form.templateEditor")}</h3>
                 <button
                   className="text-teal-700 text-sm font-medium"
                   type="button"
@@ -261,7 +266,7 @@ export function ActivityCreatorPage() {
                     if (id) navigate(`/actividades/preview/${id}`);
                   }}
                 >
-                  Vista previa amplia
+                  {t("activityCreator.actions.openPreview")}
                 </button>
               </div>
               <div className="border border-slate-100 rounded-lg p-3 bg-slate-50/50">
@@ -273,8 +278,8 @@ export function ActivityCreatorPage() {
 
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-slate-900">Borradores guardados</h3>
-            <span className="text-xs text-slate-500">{drafts?.length || 0} actividades</span>
+            <h3 className="text-lg font-semibold text-slate-900">{t("activityCreator.drafts.title")}</h3>
+            <span className="text-xs text-slate-500">{(drafts?.length || 0)} {t("activityCreator.drafts.countLabel")}</span>
           </div>
           <div className="space-y-3 max-h-[70vh] overflow-auto pr-2">
             {drafts?.map((draft) => (
@@ -288,36 +293,38 @@ export function ActivityCreatorPage() {
                     {new Date(draft.updatedAt).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 line-clamp-2">{draft.objective || "Sin objetivo"}</p>
+                <p className="text-xs text-slate-500 line-clamp-2">{draft.objective || t("activityCreator.drafts.noObjective")}</p>
                 <div className="flex items-center gap-2 text-xs text-teal-700 font-semibold">
                   <span className="px-2 py-1 bg-teal-50 rounded-full">{draft.templateId}</span>
-                  <span className="px-2 py-1 bg-slate-50 rounded-full">{draft.assets.length} recursos</span>
-                  <span className="px-2 py-1 bg-slate-50 rounded-full">{draft.instructions ? "Con instrucción" : "Sin instrucción"}</span>
+                  <span className="px-2 py-1 bg-slate-50 rounded-full">{draft.assets.length} {t("activityCreator.drafts.assetsLabel")}</span>
+                  <span className="px-2 py-1 bg-slate-50 rounded-full">
+                    {draft.instructions ? t("activityCreator.drafts.withInstructions") : t("activityCreator.drafts.noInstructions")}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs mt-2">
                   <button
                     className="px-3 py-1 bg-slate-100 rounded-lg hover:bg-slate-200"
                     onClick={() => handleEdit(draft)}
                   >
-                    Editar
+                    {t("activityCreator.actions.edit")}
                   </button>
                   <button
                     className="px-3 py-1 bg-slate-100 rounded-lg hover:bg-slate-200"
                     onClick={() => navigate(`/actividades/preview/${draft.id}`)}
                   >
-                    Vista previa
+                    {t("activityCreator.actions.preview")}
                   </button>
                   <button
                     className="px-3 py-1 bg-slate-100 rounded-lg hover:bg-slate-200"
                     onClick={() => handleDuplicate(draft)}
                   >
-                    Duplicar
+                    {t("activityCreator.actions.duplicate")}
                   </button>
                   <button
                     className="px-3 py-1 bg-red-50 text-red-700 rounded-lg hover:bg-red-100"
                     onClick={() => handleDelete(draft.id)}
                   >
-                    Eliminar
+                    {t("activityCreator.actions.delete")}
                   </button>
                 </div>
               </div>
