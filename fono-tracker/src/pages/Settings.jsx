@@ -30,11 +30,7 @@ export function Settings() {
 
     const handleExport = async () => {
         try {
-            const blob = await db.export(); // We need dexie-export-import or manual export
-            // Manual export strategy for simplicity and control without extra libs if possible, 
-            // but dexie-export-import is standard. Let's try manual first to avoid install steps if risky.
-
-            // Manual Export Logic
+            // Manual export strategy for simplicidad y control sin dependencias extras
             const exportData = {
                 version: 1,
                 timestamp: new Date().toISOString(),
@@ -227,8 +223,22 @@ export function Settings() {
                 </div>
             </div>
 
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-slate-100">
+                    <h2 className="text-lg font-bold text-slate-800 mb-1">Créditos y licencias</h2>
+                    <p className="text-sm text-slate-500">Reconocimiento de recursos externos usados en actividades.</p>
+                </div>
+                <div className="p-6 space-y-2">
+                    <p className="text-sm text-slate-700">
+                        ARASAAC: pictogramas propiedad del Gobierno de Aragón (España). Licencia <strong>CC BY-NC-SA 4.0</strong>.
+                        Autoría y procedencia: Portal Aragonés de la Comunicación Aumentativa y Alternativa (https://arasaac.org).
+                    </p>
+                    <p className="text-xs text-slate-500">Incluye pictogramas en el gestor de actividades para tareas enviadas a pacientes.</p>
+                </div>
+            </div>
+
             {/* Visual Preferences Section (Placeholder for now) */}
-            {/* 
+            {/*
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100">
                     <h2 className="text-lg font-bold text-slate-800 mb-1">Apariencia</h2>

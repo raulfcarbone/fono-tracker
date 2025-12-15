@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Users, LayoutDashboard, Settings, Activity, Calendar } from 'lucide-react';
+import { Users, LayoutDashboard, Settings, Activity, Calendar, Sparkles, Gamepad2 } from 'lucide-react';
 import clsx from 'clsx';
 
-function NavItem({ to, icon: Icon, children }) {
+function NavItem({ to, icon, children }) {
     const location = useLocation();
     const isActive = location.pathname.startsWith(to);
+    const IconComponent = icon;
 
     return (
         <Link
@@ -17,7 +18,7 @@ function NavItem({ to, icon: Icon, children }) {
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
             )}
         >
-            <Icon size={20} />
+            <IconComponent size={20} />
             <span>{children}</span>
         </Link>
     );
@@ -38,6 +39,8 @@ export function Layout() {
                 <nav className="flex-1 px-4 space-y-1">
                     <NavItem to="/dashboard" icon={LayoutDashboard}>Dashboard</NavItem>
                     <NavItem to="/calendar" icon={Calendar}>Agenda</NavItem>
+                    <NavItem to="/activities" icon={Sparkles}>Actividades</NavItem>
+                    <NavItem to="/interactive" icon={Gamepad2}>Interactivas</NavItem>
                     <NavItem to="/patients" icon={Users}>Pacientes</NavItem>
                 </nav>
 
