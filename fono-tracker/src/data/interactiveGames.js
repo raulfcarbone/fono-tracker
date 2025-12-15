@@ -1,6 +1,7 @@
 import { FindAndNameGame } from '../games/findAndName/FindAndNameGame';
 import { AttentionRulesGame } from '../components/interactive/AttentionRulesGame';
 import { MemorySequencingGame } from '../components/interactive/MemorySequencingGame';
+import { GoNoGoGame } from '../games/goNoGo/GoNoGoGame';
 
 /**
  * Modelo de datos para el catálogo clínico de actividades interactivas.
@@ -58,5 +59,17 @@ export const getInteractiveGames = t => [
     languageIndependent: true,
     status: 'integrado',
     component: MemorySequencingGame,
+  },
+  {
+    id: 'go-no-go',
+    title: t('interactiveActivities.games.goNoGo.title'),
+    description: t('interactiveActivities.games.goNoGo.description'),
+    therapeuticGoals: t('interactiveActivities.games.goNoGo.goals', []),
+    cognitiveSkills: t('interactiveActivities.games.goNoGo.skills', []),
+    ageRange: t('interactiveActivities.games.goNoGo.ageRange'),
+    category: 'cognicion',
+    languageIndependent: true,
+    status: 'integrado',
+    component: GoNoGoGame,
   },
 ];
