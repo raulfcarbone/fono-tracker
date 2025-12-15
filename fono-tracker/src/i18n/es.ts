@@ -159,6 +159,60 @@ export const es = {
         skills: ['Atención selectiva', 'Control inhibitorio', 'Flexibilidad cognitiva ligera'],
         ageRange: '6-12 años',
       },
+      meaningDetective: {
+        title: 'Detective del sentido',
+        description:
+          'Ítems breves para trabajar inferencias, lenguaje figurado y relaciones semánticas con feedback amable y guía de justificación.',
+        instructions:
+          'Lee/escucha el estímulo, elige la opción que tenga más sentido y luego explica el porqué con las pistas.',
+        labels: {
+          category: 'Categoría',
+          difficulty: 'Dificultad',
+          therapistMode: 'Modo terapeuta',
+          therapistNote: 'Muestra pista y respuesta',
+          situation: 'Situación y pregunta',
+          hint: 'Pista',
+          explanation: 'Explicación',
+          correctAnswer: 'Respuesta correcta',
+          inviteToExplain: 'Después de elegir, conversa el porqué usando las frases guía.',
+          therapistPreview: 'Vista solo para terapeuta',
+        },
+        difficulties: {
+          1: 'Nivel 1: apoyo guiado',
+          2: 'Nivel 2: desafío moderado',
+          3: 'Nivel 3: inferencia compleja',
+        },
+        categories: {
+          inferencia: 'Inferencias',
+          emociones: 'Emociones',
+          figurado: 'Lenguaje figurado',
+          semantica: 'Relaciones semánticas',
+        },
+        actions: {
+          viewWhy: 'Ver explicación',
+          next: 'Siguiente ítem',
+        },
+        feedback: {
+          correct: 'Bien, tu respuesta tiene sentido. ¿Cómo lo explicarías?',
+          retry: 'Casi, revisa la pista y el porqué.',
+        },
+        justification: {
+          title: 'Fase de justificación (metapragmática)',
+          prompts: ['Porque…', 'Se entiende que…', 'La pista es…'],
+        },
+        progress: {
+          title: 'Aciertos por categoría',
+        },
+        empty: 'No hay ítems para esta categoría/dificultad. Agrega más en data.ts o cambia el filtro.',
+        goals: [
+          'Practicar inferencias causales, emocionales y predictivas',
+          'Comprender lenguaje figurado y modismos simples',
+          'Explorar relaciones semánticas (sinónimos, categorías, parte-todo)',
+          'Promover metapragmática: justificar por qué la respuesta tiene sentido',
+        ],
+        skills: ['Comprensión auditiva/lectora', 'Razonamiento verbal', 'Flexibilidad semántica'],
+        ageRange: '8-13 años',
+      },
       storyOrder: {
         title: "Ordena la historia",
         description:

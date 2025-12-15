@@ -3,6 +3,7 @@ import { AttentionRulesGame } from '../components/interactive/AttentionRulesGame
 import { MemorySequencingGame } from '../components/interactive/MemorySequencingGame';
 import { GoNoGoGame } from '../games/goNoGo/GoNoGoGame';
 import { StoryOrderGame } from '../games/storyOrder/StoryOrderGame';
+import { MeaningDetectiveGame } from '../games/meaningDetective/MeaningDetectiveGame';
 
 /**
  * Modelo de datos para el catálogo clínico de actividades interactivas.
@@ -72,6 +73,18 @@ export const getInteractiveGames = t => [
     languageIndependent: true,
     status: 'integrado',
     component: GoNoGoGame,
+  },
+  {
+    id: 'meaning-detective',
+    title: t('interactiveActivities.games.meaningDetective.title'),
+    description: t('interactiveActivities.games.meaningDetective.description'),
+    therapeuticGoals: t('interactiveActivities.games.meaningDetective.goals', []),
+    cognitiveSkills: t('interactiveActivities.games.meaningDetective.skills', []),
+    ageRange: t('interactiveActivities.games.meaningDetective.ageRange'),
+    category: 'lenguaje',
+    languageIndependent: true,
+    status: 'integrado',
+    component: MeaningDetectiveGame,
   },
   {
     id: 'story-order',
