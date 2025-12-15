@@ -159,6 +159,79 @@ export const es = {
         skills: ['Atención selectiva', 'Control inhibitorio', 'Flexibilidad cognitiva ligera'],
         ageRange: '6-12 años',
       },
+      storyOrder: {
+        title: "Ordena la historia",
+        description:
+          "Tarjetas narrativas desordenadas para trabajar inicio-desarrollo-final, coherencia temporal y memoria de trabajo.",
+        instructions: "Reordena las tarjetas y relata usando conectores temporales.",
+        helper: "Apoya con gestos o pictogramas si el niño necesita andamiaje visual.",
+        storySelector: "Selecciona una historia",
+        modeLabel: "Modo de estímulo",
+        modes: {
+          text: "Con texto",
+          visual: "Solo imágenes",
+        },
+        actions: {
+          check: "Comprobar orden",
+          shuffle: "Mezclar",
+        },
+        labels: {
+          card: "Tarjeta",
+          moveLeft: "Mover a la izquierda",
+          moveRight: "Mover a la derecha",
+          storyCard: "Tarjeta de la historia",
+        },
+        feedback: {
+          success: "¡Excelente! Relata con tus palabras: primero, luego, después, al final.",
+          partial: ({ ok }: { ok: number }) =>
+            `Vas bien: ${ok} en posición correcta. Ajustemos y probemos de nuevo.`,
+        },
+        prompts: {
+          connectorsTitle: "Conectores para narrar",
+          questionsTitle: "Preguntas de inferencia",
+        },
+        progress: {
+          attempts: "Intentos",
+          completed: "Historia completada",
+        },
+        goals: [
+          "Organizar relatos con inicio, desarrollo y cierre",
+          "Favorecer coherencia temporal y causal",
+          "Estimular memoria de trabajo al retener pasos",
+          "Guiar lenguaje comprensivo y expresivo",
+        ],
+        skills: ['Narración guiada', 'Secuenciación', 'Memoria de trabajo'],
+        ageRange: '6-12 años',
+        stories: {
+          picnic: {
+            title: 'Día de picnic',
+            cards: {
+              a: 'Preparan la canasta',
+              b: 'Llegan al parque',
+              c: 'Comen juntos',
+              d: 'Vuelven a casa',
+            },
+            prompts: {
+              starter: 'Ordena la historia y cuéntala con tus palabras.',
+              connectors: ['Primero…', 'Luego…', 'Después…', 'Al final…'],
+              questions: ['¿Qué sienten en cada parte?', '¿Qué pasaría si llueve?'],
+            },
+          },
+          'morning-routine': {
+            title: 'Rutina de la mañana',
+            cards: {
+              a: 'Se despierta y se estira',
+              b: 'Se lava la cara y los dientes',
+              c: 'Desayuna con la familia',
+            },
+            prompts: {
+              starter: 'Acomoda la rutina y descríbela.',
+              connectors: ['Al despertar…', 'Luego…', 'Después…'],
+              questions: ['¿Qué parte te gusta más?', '¿Qué sucede si se olvida de un paso?'],
+            },
+          },
+        },
+      },
     },
   },
 };

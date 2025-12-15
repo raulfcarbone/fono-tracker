@@ -2,6 +2,7 @@ import { FindAndNameGame } from '../games/findAndName/FindAndNameGame';
 import { AttentionRulesGame } from '../components/interactive/AttentionRulesGame';
 import { MemorySequencingGame } from '../components/interactive/MemorySequencingGame';
 import { GoNoGoGame } from '../games/goNoGo/GoNoGoGame';
+import { StoryOrderGame } from '../games/storyOrder/StoryOrderGame';
 
 /**
  * Modelo de datos para el catálogo clínico de actividades interactivas.
@@ -71,5 +72,17 @@ export const getInteractiveGames = t => [
     languageIndependent: true,
     status: 'integrado',
     component: GoNoGoGame,
+  },
+  {
+    id: 'story-order',
+    title: t('interactiveActivities.games.storyOrder.title'),
+    description: t('interactiveActivities.games.storyOrder.description'),
+    therapeuticGoals: t('interactiveActivities.games.storyOrder.goals', []),
+    cognitiveSkills: t('interactiveActivities.games.storyOrder.skills', []),
+    ageRange: t('interactiveActivities.games.storyOrder.ageRange'),
+    category: 'narrativo',
+    languageIndependent: true,
+    status: 'integrado',
+    component: StoryOrderGame,
   },
 ];

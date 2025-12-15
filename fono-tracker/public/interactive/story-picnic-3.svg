@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120">
+  <rect width="160" height="120" rx="12" fill="#fef9c3"/>
+  <rect x="25" y="70" width="110" height="25" rx="6" fill="#fb7185" stroke="#be123c" stroke-width="3"/>
+  <circle cx="60" cy="65" r="10" fill="#ffffff"/>
+  <circle cx="100" cy="65" r="10" fill="#ffffff"/>
+  <path d="M50 55 C65 35 95 35 110 55" fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
+  <text x="80" y="105" text-anchor="middle" font-family="Arial" font-size="12" fill="#831843">Comen juntos</text>
+</svg>
