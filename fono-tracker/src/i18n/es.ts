@@ -249,6 +249,7 @@ export const es = {
           'Lee o escucha el texto breve, responde cada pregunta y revisa la pista de evidencia que apoya la respuesta.',
         therapeuticNote:
           'Modo clínico con andamiaje: trabajar evidencia textual (“¿dónde lo dice?”), inferir causas/efectos y aclarar expresiones figuradas.',
+        libraryLink: 'Gestiona lecturas en la biblioteca clínica',
         labels: {
           difficulty: 'Nivel',
           assistMode: 'Lectura asistida (sin mostrar texto)',
@@ -268,6 +269,7 @@ export const es = {
         types: {
           literal: 'Literal',
           inferencial: 'Inferencial',
+          emociones: 'Emociones/estado',
           figurado: 'Figurado',
         },
         difficulties: {
@@ -287,7 +289,8 @@ export const es = {
           session: 'Sesión actual',
           saved: 'Progreso guardado (local)',
         },
-        empty: 'No hay lecturas para este nivel. Agrega más ítems en data.ts o cambia el filtro.',
+        empty: 'No hay lecturas para este nivel. Usa la biblioteca clínica para agregar o importar lecturas.',
+        loading: 'Cargando biblioteca clínica…',
         goals: [
           'Trabajar comprensión literal identificando información explícita',
           'Favorecer inferencias causales y predictivas apoyadas en evidencia',
@@ -372,6 +375,83 @@ export const es = {
               connectors: ['Al despertar…', 'Luego…', 'Después…'],
               questions: ['¿Qué parte te gusta más?', '¿Qué sucede si se olvida de un paso?'],
             },
+          },
+        },
+      },
+    },
+    readingLibrary: {
+      badge: 'Modo terapeuta',
+      title: 'Biblioteca clínica de lecturas',
+      subtitle:
+        'Crea, edita y reutiliza micro-textos con preguntas para trabajo de comprensión, inferencias y figurado sin tocar código.',
+      therapistOnly: {
+        title: 'Solo para terapeutas',
+        description:
+          'Incluye creación y edición de contenidos clínicos. Activa este modo cuando estés en sesión o preparando material.',
+        cta: 'Entendido, activar modo terapeuta',
+      },
+      actions: {
+        new: 'Nueva lectura',
+        export: 'Exportar JSON',
+        import: 'Importar JSON',
+        duplicate: 'Duplicar',
+        delete: 'Eliminar',
+        reset: 'Descartar cambios locales',
+        save: 'Guardar en biblioteca',
+      },
+      messages: {
+        saved: 'Lectura guardada en la biblioteca clínica.',
+        deleted: 'Lectura eliminada.',
+        duplicated: 'Lectura duplicada.',
+        exported: 'Exportación lista.',
+        imported: 'Lecturas importadas.',
+        importError: 'No se pudo importar. Verifica el JSON.',
+      },
+      list: {
+        title: 'Lecturas disponibles',
+        count: ({ count }: { count: number }) => `${count} lecturas`,
+        loading: 'Cargando biblioteca…',
+        empty: 'Aún no hay lecturas. Usa “Nueva lectura” o importa un archivo JSON.',
+        questions: 'preguntas',
+      },
+      editor: {
+        title: 'Editor clínico',
+        fields: {
+          title: 'Título de la lectura',
+          difficulty: 'Dificultad',
+          text: 'Texto breve (1–4 frases)',
+          image: 'Imagen o pictograma (URL o asset)',
+        },
+        placeholders: {
+          title: 'Ej: El recreo con amigos',
+          text: 'Escribe el micro-texto aquí…',
+          image: '/interactive/mi-imagen.svg',
+        },
+        hints: {
+          image: 'Usa rutas locales (public/) o URLs seguras. El juego mostrará la imagen en modo visual.',
+        },
+        questions: {
+          title: 'Preguntas',
+          add: 'Agregar pregunta',
+          label: ({ index }: { index: number }) => `Pregunta ${index}`,
+          type: 'Tipo',
+          fields: {
+            prompt: 'Enunciado / pregunta',
+            options: 'Opciones',
+            explanation: 'Explicación/feedback',
+            evidence: 'Evidencia en el texto',
+          },
+          placeholders: {
+            prompt: '¿Qué vio Camila…?',
+            option: 'Opción',
+            explanation: 'Por qué esta respuesta es correcta',
+            evidence: 'Frase exacta o pista textual',
+          },
+          actions: {
+            addOption: 'Agregar opción',
+          },
+          hints: {
+            evidence: 'Incluye la frase o idea que respalda la respuesta. Útil para “¿Dónde lo dice?”.',
           },
         },
       },

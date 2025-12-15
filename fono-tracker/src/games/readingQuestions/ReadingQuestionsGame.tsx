@@ -1,16 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { readingItems as defaultReadings } from './data';
 import { scoreByType, loadProgress, persistProgress } from './scoring';
+import { useReadingLibrary } from './useReadingLibrary';
 import { type Difficulty, type QType, type ReadingItem, type ReadingQuestionsConfig, type Progress } from './types';
 
-const STORAGE_KEY = 'reading-questions-progress-v1';
-
-const defaultProgress: Progress = {
-  literal: { correct: 0, total: 0 },
-  inferencial: { correct: 0, total: 0 },
-  figurado: { correct: 0, total: 0 },
-};
+const STORAGE_KEY = 'reading-questions-progress-v2';
 
 function getTypeLabel(type: QType, t: (path: string, fallback?: any) => any) {
   return t(`interactiveActivities.games.readingQuestions.types.${type}`);
@@ -19,6 +13,8 @@ function getTypeLabel(type: QType, t: (path: string, fallback?: any) => any) {
 function getDifficultyLabel(level: Difficulty, t: (path: string, fallback?: any) => any) {
   return t(`interactiveActivities.games.readingQuestions.difficulties.${level}`);
 }
+
+const TYPE_ORDER: QType[] = ['literal', 'inferencial', 'figurado', 'emociones'];
 
 /**
  * Juego clínico "Lectura breve y preguntas".
@@ -33,7 +29,6 @@ export function ReadingQuestionsGame({
   config?: ReadingQuestionsConfig;
   t: (path: string, fallback?: any) => any;
 }) {
-  const bank = config?.readings?.length ? config.readings : defaultReadings;
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
   const [assistMode, setAssistMode] = useState(false);
   const [visualOnly, setVisualOnly] = useState(false);
@@ -41,7 +36,12 @@ export function ReadingQuestionsGame({
   const [questionIndex, setQuestionIndex] = useState(0);
   const [choice, setChoice] = useState<number | null>(null);
   const [sessionResults, setSessionResults] = useState<{ type: QType; ok: boolean }[]>([]);
-  const [progress, setProgress] = useState<Progress>(() => loadProgress(STORAGE_KEY) || defaultProgress);
+  const [progress, setProgress] = useState<Progress>(() => loadProgress(STORAGE_KEY));
+  const { readings, loading } = useReadingLibrary(difficulty);
+  const bank = useMemo<ReadingItem[]>(() => {
+    if (config?.readings?.length) return config.readings;
+    return readings;
+  }, [config?.readings, readings]);
 
   const pool: ReadingItem[] = useMemo(
     () => bank.filter(reading => reading.difficulty === difficulty),
@@ -53,13 +53,24 @@ export function ReadingQuestionsGame({
     setQuestionIndex(0);
     setChoice(null);
     setSessionResults([]);
-  }, [difficulty]);
+  }, [difficulty, bank]);
 
   const reading: ReadingItem | undefined = pool[readingIndex % Math.max(pool.length, 1)];
   const question = reading?.questions?.[questionIndex];
 
   const answered = choice !== null;
   const ok = answered && question ? choice === question.correctIndex : false;
+
+  if (loading) {
+    return (
+      <div className="space-y-2 text-sm text-slate-700">
+        <p className="text-base font-semibold text-slate-900">
+          {t('interactiveActivities.games.readingQuestions.title')}
+        </p>
+        <p className="text-slate-600">{t('interactiveActivities.games.readingQuestions.loading')}</p>
+      </div>
+    );
+  }
 
   if (!reading || !question) {
     return (
@@ -123,6 +134,12 @@ export function ReadingQuestionsGame({
           <p className="text-xs text-slate-500">
             {t('interactiveActivities.games.readingQuestions.therapeuticNote')}
           </p>
+          <a
+            className="inline-flex items-center gap-1 text-xs text-teal-700 hover:underline"
+            href="/biblioteca-lecturas"
+          >
+            {t('interactiveActivities.games.readingQuestions.libraryLink')}
+          </a>
         </div>
         <div className="flex flex-col items-end gap-2 text-xs text-slate-600">
           <label className="flex items-center gap-2">
@@ -284,41 +301,21 @@ export function ReadingQuestionsGame({
             <p className="font-semibold text-slate-800">
               {t('interactiveActivities.games.readingQuestions.summary.session')}
             </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.literal')}: {sessionSummary.literal.ok}/{
-                sessionSummary.literal.total
-              }
-            </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.inferencial')}: {sessionSummary.inferencial.ok}/{
-                sessionSummary.inferencial.total
-              }
-            </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.figurado')}: {sessionSummary.figurado.ok}/{
-                sessionSummary.figurado.total
-              }
-            </p>
+            {TYPE_ORDER.map(type => (
+              <p key={`session-${type}`}>
+                {getTypeLabel(type, t)}: {sessionSummary[type]?.correct ?? 0}/{sessionSummary[type]?.total ?? 0}
+              </p>
+            ))}
           </div>
           <div className="space-y-1">
             <p className="font-semibold text-slate-800">
               {t('interactiveActivities.games.readingQuestions.summary.saved')}
             </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.literal')}: {progress.literal.correct}/{
-                progress.literal.total
-              }
-            </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.inferencial')}: {progress.inferencial.correct}/{
-                progress.inferencial.total
-              }
-            </p>
-            <p>
-              {t('interactiveActivities.games.readingQuestions.types.figurado')}: {progress.figurado.correct}/{
-                progress.figurado.total
-              }
-            </p>
+            {TYPE_ORDER.map(type => (
+              <p key={`saved-${type}`}>
+                {getTypeLabel(type, t)}: {progress[type]?.correct ?? 0}/{progress[type]?.total ?? 0}
+              </p>
+            ))}
           </div>
         </div>
       </div>

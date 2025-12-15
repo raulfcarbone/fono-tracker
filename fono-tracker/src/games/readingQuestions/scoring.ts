@@ -1,15 +1,20 @@
 import { type Progress, type QType } from './types';
 
-export function scoreByType(results: { type: QType; ok: boolean }[]) {
-  const base: Record<QType, { ok: number; total: number }> = {
-    literal: { ok: 0, total: 0 },
-    inferencial: { ok: 0, total: 0 },
-    figurado: { ok: 0, total: 0 },
-  };
+function emptyProgress(): Progress {
+  return {
+    literal: { correct: 0, total: 0 },
+    inferencial: { correct: 0, total: 0 },
+    figurado: { correct: 0, total: 0 },
+    emociones: { correct: 0, total: 0 },
+  } as Progress;
+}
 
+export function scoreByType(results: { type: QType; ok: boolean }[]) {
+  const base = emptyProgress();
   for (const r of results) {
+    base[r.type] = base[r.type] || { correct: 0, total: 0 };
     base[r.type].total += 1;
-    if (r.ok) base[r.type].ok += 1;
+    if (r.ok) base[r.type].correct += 1;
   }
   return base;
 }
@@ -24,17 +29,18 @@ export function persistProgress(key: string, progress: Progress) {
 }
 
 export function loadProgress(key: string): Progress {
-  const empty: Progress = {
-    literal: { correct: 0, total: 0 },
-    inferencial: { correct: 0, total: 0 },
-    figurado: { correct: 0, total: 0 },
-  };
-  if (typeof window === 'undefined') return empty;
+  if (typeof window === 'undefined') return emptyProgress();
   try {
     const stored = localStorage.getItem(key);
-    return stored ? (JSON.parse(stored) as Progress) : empty;
+    if (stored) return { ...emptyProgress(), ...(JSON.parse(stored) as Progress) };
+
+    const legacy = localStorage.getItem('reading-questions-progress-v1');
+    if (legacy) {
+      return { ...emptyProgress(), ...(JSON.parse(legacy) as Progress) };
+    }
+    return emptyProgress();
   } catch (error) {
     console.error('Error loading reading questions progress', error);
-    return empty;
+    return emptyProgress();
   }
 }
