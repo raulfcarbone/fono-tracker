@@ -18,7 +18,7 @@ export function RubricScorer({ onScoreChange, initialScores = {} }) {
 
     useEffect(() => {
         onScoreChange && onScoreChange({ scores, totalScore, gasScore });
-    }, [scores, totalScore, gasScore]);
+    }, [scores, totalScore, gasScore, onScoreChange]);
 
     return (
         <div className="space-y-8">
