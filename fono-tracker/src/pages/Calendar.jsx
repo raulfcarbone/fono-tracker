@@ -38,12 +38,15 @@ export function Calendar() {
     const [showModal, setShowModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const appointments = useLiveQuery(() => db.appointments.toArray()) || [];
-    const patients = useLiveQuery(() => db.patients.toArray()) || [];
+    const appointments = useLiveQuery(() => db.appointments.toArray());
+    const patients = useLiveQuery(() => db.patients.toArray());
 
     const events = useMemo(() => {
-        return appointments.map(app => {
-            const patient = patients.find(p => p.id === parseInt(app.patientId));
+        const safeAppointments = appointments ?? [];
+        const safePatients = patients ?? [];
+
+        return safeAppointments.map(app => {
+            const patient = safePatients.find(p => p.id === parseInt(app.patientId));
             return {
                 ...app,
                 title: app.title || (patient ? patient.name : 'Cita'),

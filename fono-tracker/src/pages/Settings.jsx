@@ -30,11 +30,7 @@ export function Settings() {
 
     const handleExport = async () => {
         try {
-            const blob = await db.export(); // We need dexie-export-import or manual export
-            // Manual export strategy for simplicity and control without extra libs if possible, 
-            // but dexie-export-import is standard. Let's try manual first to avoid install steps if risky.
-
-            // Manual Export Logic
+            // Manual export strategy for simplicidad y control sin dependencias extras
             const exportData = {
                 version: 1,
                 timestamp: new Date().toISOString(),

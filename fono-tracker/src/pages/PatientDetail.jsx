@@ -6,6 +6,7 @@ import { RubricScorer } from '../components/RubricScorer';
 import { PatientEvaluations } from '../components/PatientEvaluations';
 import { PatientDocuments } from '../components/PatientDocuments';
 import { WorkPlanModal } from '../components/WorkPlanModal';
+import { ObjectiveBankModal } from '../components/ObjectiveBankModal';
 import { CLINICAL_AREAS } from '../lib/gas';
 import { ArrowLeft, Save, Plus, ChevronDown, ChevronRight, Activity, Trash2, LineChart as IconChart, LayoutList, ClipboardList, FolderOpen, FileText } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
@@ -27,6 +28,7 @@ export function PatientDetail() {
     const [showAddObjective, setShowAddObjective] = useState(null); // 'AreaName' or null
     const [newObjectiveText, setNewObjectiveText] = useState('');
     const [showWorkPlan, setShowWorkPlan] = useState(false);
+    const [showObjectiveBank, setShowObjectiveBank] = useState(false);
     const [allLastScores, setAllLastScores] = useState({});
 
     // State for Scoring
@@ -58,6 +60,27 @@ export function PatientDetail() {
         });
         setNewObjectiveText('');
         setShowAddObjective(null);
+    };
+
+    const handleSelectObjectiveFromBank = async (objective) => {
+        const areaName = objective.area || objective.areaName;
+
+        await db.objectives.add({
+            patientId,
+            area: areaName,
+            description: objective.description,
+            status: 'active',
+            baseline: objective.baseline,
+            target: objective.target,
+            contexts: objective.contexts,
+            materials: objective.materials,
+            strategies: objective.strategies,
+            sourceId: objective.sourceId,
+            createdAt: new Date()
+        });
+
+        setExpandedArea(areaName);
+        setShowObjectiveBank(false);
     };
 
     const handleOpenWorkPlan = async () => {
@@ -242,13 +265,22 @@ export function PatientDetail() {
                     <h1 className="text-3xl font-bold text-slate-900">{patient.name}</h1>
                     <p className="text-slate-500 mt-1">{patient.diagnosis}</p>
                 </div>
-                <button
-                    onClick={handleOpenWorkPlan}
-                    className="flex items-center bg-white text-teal-700 border border-teal-200 px-4 py-2 rounded-lg hover:bg-teal-50 font-medium shadow-sm transition-colors"
-                >
-                    <FileText className="mr-2" size={18} />
-                    Plan de Trabajo Completo
-                </button>
+                <div className="flex items-center space-x-3">
+                    <button
+                        onClick={() => setShowObjectiveBank(true)}
+                        className="flex items-center bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 font-medium shadow-sm transition-colors"
+                    >
+                        <FolderOpen className="mr-2" size={18} />
+                        Banco de objetivos
+                    </button>
+                    <button
+                        onClick={handleOpenWorkPlan}
+                        className="flex items-center bg-white text-teal-700 border border-teal-200 px-4 py-2 rounded-lg hover:bg-teal-50 font-medium shadow-sm transition-colors"
+                    >
+                        <FileText className="mr-2" size={18} />
+                        Plan de Trabajo Completo
+                    </button>
+                </div>
             </div>
 
             <div className="flex space-x-1 bg-slate-100 p-1 rounded-xl w-fit">
@@ -390,6 +422,14 @@ export function PatientDetail() {
                     objectives={objectives}
                     objectiveLastScores={allLastScores}
                     onClose={() => setShowWorkPlan(false)}
+                />
+            )}
+
+            {showObjectiveBank && (
+                <ObjectiveBankModal
+                    onSelect={handleSelectObjectiveFromBank}
+                    onClose={() => setShowObjectiveBank(false)}
+                    patientDiagnosis={patient.diagnosis}
                 />
             )}
         </div>

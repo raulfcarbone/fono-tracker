@@ -188,7 +188,6 @@ function FormatsSection({ patientId, patientName }) {
 
 function UploadsSection({ patientId }) {
     const docs = useLiveQuery(() => db.patientDocs.where('patientId').equals(patientId).reverse().sortBy('date')) || [];
-    const [isDragOver, setIsDragOver] = useState(false);
 
     const handleFileUpload = async (e) => {
         const files = e.target.files;

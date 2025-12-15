@@ -8,7 +8,6 @@ import { PatientIntakeForm } from '../components/PatientIntakeForm';
 export function Patients() {
     const patients = useLiveQuery(() => db.patients.orderBy('createdAt').reverse().toArray());
     const [showAdd, setShowAdd] = useState(false);
-    const [newPatient, setNewPatient] = useState({ name: '', diagnosis: '' });
 
     const handleAdd = async (formData) => {
         // e.preventDefault() is handled in the child component
