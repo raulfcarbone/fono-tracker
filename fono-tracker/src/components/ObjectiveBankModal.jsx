@@ -3,9 +3,9 @@ import { X, Search, Filter, Star, StarOff, Plus, ChevronDown, ChevronRight } fro
 import clsx from 'clsx';
 import { OBJECTIVE_BANK, searchObjectives, COMMON_DIAGNOSES, AGE_GROUPS } from '../lib/objective_bank';
 
-export function ObjectiveBankModal({ onSelect, onClose, patientDiagnosis }) {
+export function ObjectiveBankModal({ onSelect, onClose, patientDiagnosis, initialArea = '' }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedArea, setSelectedArea] = useState('');
+    const [selectedArea, setSelectedArea] = useState(initialArea);
     const [selectedAgeGroup, setSelectedAgeGroup] = useState('');
     const [selectedDiagnosis, setSelectedDiagnosis] = useState(patientDiagnosis || '');
     const [selectedType, setSelectedType] = useState('');

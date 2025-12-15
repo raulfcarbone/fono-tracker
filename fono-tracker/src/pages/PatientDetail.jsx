@@ -7,6 +7,8 @@ import { PatientEvaluations } from '../components/PatientEvaluations';
 import { PatientDocuments } from '../components/PatientDocuments';
 import { WorkPlanModal } from '../components/WorkPlanModal';
 import { ObjectiveBankModal } from '../components/ObjectiveBankModal';
+import { PatientReports } from '../components/PatientReports';
+import { OBJECTIVE_BANK } from '../lib/objective_bank';
 import { CLINICAL_AREAS } from '../lib/gas';
 import { ArrowLeft, Save, Plus, ChevronDown, ChevronRight, Activity, Trash2, LineChart as IconChart, LayoutList, ClipboardList, FolderOpen, FileText } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
@@ -23,12 +25,18 @@ export function PatientDetail() {
         , [patientId]);
 
     // State for UI
-    const [activeTab, setActiveTab] = useState('objectives'); // 'objectives' | 'evaluations'
+    const [activeTab, setActiveTab] = useState('objectives'); // 'objectives' | 'evaluations' | 'reports' | 'documents'
     const [expandedArea, setExpandedArea] = useState(null);
     const [showAddObjective, setShowAddObjective] = useState(null); // 'AreaName' or null
     const [newObjectiveText, setNewObjectiveText] = useState('');
     const [showWorkPlan, setShowWorkPlan] = useState(false);
     const [showObjectiveBank, setShowObjectiveBank] = useState(false);
+    const [objectiveBankArea, setObjectiveBankArea] = useState('');
+
+    const resolveBankAreaId = (areaLabel) => {
+        const match = OBJECTIVE_BANK.areas.find(a => a.name === areaLabel);
+        return match ? match.id : '';
+    };
     const [allLastScores, setAllLastScores] = useState({});
 
     // State for Scoring
@@ -81,6 +89,7 @@ export function PatientDetail() {
 
         setExpandedArea(areaName);
         setShowObjectiveBank(false);
+        setObjectiveBankArea('');
     };
 
     const handleOpenWorkPlan = async () => {
@@ -267,13 +276,6 @@ export function PatientDetail() {
                 </div>
                 <div className="flex items-center space-x-3">
                     <button
-                        onClick={() => setShowObjectiveBank(true)}
-                        className="flex items-center bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 font-medium shadow-sm transition-colors"
-                    >
-                        <FolderOpen className="mr-2" size={18} />
-                        Banco de objetivos
-                    </button>
-                    <button
                         onClick={handleOpenWorkPlan}
                         className="flex items-center bg-white text-teal-700 border border-teal-200 px-4 py-2 rounded-lg hover:bg-teal-50 font-medium shadow-sm transition-colors"
                     >
@@ -307,6 +309,18 @@ export function PatientDetail() {
                 >
                     <ClipboardList size={18} className="mr-2" />
                     Evaluaciones
+                </button>
+                <button
+                    onClick={() => setActiveTab('reports')}
+                    className={clsx(
+                        "flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                        activeTab === 'reports'
+                            ? "bg-white text-teal-700 shadow-sm"
+                            : "text-slate-500 hover:text-slate-700",
+                    )}
+                >
+                    <FileText size={18} className="mr-2" />
+                    Redactor de informes
                 </button>
                 <button
                     onClick={() => setActiveTab('documents')}
@@ -366,7 +380,7 @@ export function PatientDetail() {
 
                                         {/* Add Objective UI */}
                                         {showAddObjective === area ? (
-                                            <div className="bg-white p-4 rounded-lg border border-dashed border-teal-300 animate-in fade-in">
+                                            <div className="bg-white p-4 rounded-lg border border-dashed border-teal-300 animate-in fade-in space-y-3">
                                                 <input
                                                     autoFocus
                                                     type="text"
@@ -376,19 +390,31 @@ export function PatientDetail() {
                                                     className="w-full rounded-md border-slate-300 focus:border-teal-500 focus:ring-teal-500 mb-3"
                                                     onKeyDown={e => e.key === 'Enter' && handleAddObjective(area)}
                                                 />
-                                                <div className="flex justify-end space-x-2">
+                                                <div className="flex items-center justify-between">
                                                     <button
-                                                        onClick={() => setShowAddObjective(null)}
-                                                        className="px-3 py-1.5 text-sm text-slate-500 hover:text-slate-700"
+                                                        onClick={() => {
+                                                            setObjectiveBankArea(resolveBankAreaId(area));
+                                                            setShowObjectiveBank(true);
+                                                        }}
+                                                        className="flex items-center text-sm font-semibold text-teal-700 hover:text-teal-900 px-3 py-1.5 rounded-md bg-teal-50 border border-teal-100"
                                                     >
-                                                        Cancelar
+                                                        <FolderOpen size={16} className="mr-2" />
+                                                        Banco de objetivos
                                                     </button>
-                                                    <button
-                                                        onClick={() => handleAddObjective(area)}
-                                                        className="px-3 py-1.5 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700"
-                                                    >
-                                                        Guardar Objetivo
-                                                    </button>
+                                                    <div className="flex justify-end space-x-2">
+                                                        <button
+                                                            onClick={() => setShowAddObjective(null)}
+                                                            className="px-3 py-1.5 text-sm text-slate-500 hover:text-slate-700"
+                                                        >
+                                                            Cancelar
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleAddObjective(area)}
+                                                            className="px-3 py-1.5 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                                                        >
+                                                            Guardar Objetivo
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ) : (
@@ -412,6 +438,10 @@ export function PatientDetail() {
                 <PatientEvaluations patientId={patientId} />
             )}
 
+            {activeTab === 'reports' && (
+                <PatientReports patient={patient} />
+            )}
+
             {activeTab === 'documents' && (
                 <PatientDocuments patientId={patientId} patientName={patient.name} />
             )}
@@ -427,9 +457,11 @@ export function PatientDetail() {
 
             {showObjectiveBank && (
                 <ObjectiveBankModal
+                    key={objectiveBankArea || 'all'}
                     onSelect={handleSelectObjectiveFromBank}
                     onClose={() => setShowObjectiveBank(false)}
                     patientDiagnosis={patient.diagnosis}
+                    initialArea={objectiveBankArea}
                 />
             )}
         </div>
