@@ -22,7 +22,6 @@ import { RubricScoring } from './RubricScoring';
 
 import { Plus, ChevronLeft, Calendar, Save, Trash2, BarChart2, FileText, CheckSquare, MessageCircle, Activity, Gamepad2, BookOpen, BrainCircuit } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ScatterChart, Scatter, ZAxis, Cell, ReferenceArea } from 'recharts';
-import clsx from 'clsx';
 
 const EVAL_TYPES = {
     asha: {
@@ -106,6 +105,20 @@ const EVAL_TYPES = {
         config: { sections: CASBY_SECTIONS, levels: CASBY_LEVELS }
     }
 };
+
+const EVAL_COLOR_CLASSES = {
+    teal: 'bg-teal-600 hover:bg-teal-700',
+    indigo: 'bg-indigo-600 hover:bg-indigo-700',
+    rose: 'bg-rose-600 hover:bg-rose-700',
+    violet: 'bg-violet-600 hover:bg-violet-700',
+    cyan: 'bg-cyan-600 hover:bg-cyan-700',
+    pink: 'bg-pink-600 hover:bg-pink-700',
+    amber: 'bg-amber-500 hover:bg-amber-600',
+    blue: 'bg-blue-600 hover:bg-blue-700',
+    orange: 'bg-orange-500 hover:bg-orange-600'
+};
+
+const getAccentBg = (color) => EVAL_COLOR_CLASSES[color] || 'bg-slate-600 hover:bg-slate-700';
 
 export function PatientEvaluations({ patientId }) {
     const [mode, setMode] = useState('list'); // 'list', 'create', 'view', 'progress'
@@ -477,28 +490,17 @@ export function PatientEvaluations({ patientId }) {
             const config = EVAL_TYPES['pls5'].config;
 
             return (
-                <div className="space-y-8 animate-in fade-in">
-                    <ManualTable
-                        config={config}
-                        data={data[config.id] || {}}
-                        onChange={(tableData) => handleTableChange(config.id, tableData)}
-                        readOnly={readOnly}
-                    />
-
-                    {/* Discrepancy Field */}
-                    <div className="bg-white p-4 rounded-lg border border-pink-100 shadow-sm mt-4">
-                        <label className="block text-sm font-bold text-pink-900 mb-2">Discrepancia (entre áreas)</label>
-                        {readOnly ? (
-                            <p className="text-slate-700 bg-slate-50 p-3 rounded-md">{data.discrepancy || 'Sin observaciones'}</p>
-                        ) : (
-                            <textarea
-                                className="w-full border-slate-300 rounded-lg text-sm focus:ring-pink-500 focus:border-pink-500"
-                                rows={3}
-                                placeholder="Ingrese análisis de discrepancia aquí..."
-                                value={data.discrepancy || ''}
-                                onChange={(e) => onChange({ ...data, discrepancy: e.target.value })}
-                            />
-                        )}
+                <div className="space-y-4 animate-in fade-in">
+                    <div className="bg-white p-4 rounded-lg border border-pink-100 shadow-sm">
+                        <h3 className="text-lg font-bold text-pink-900 mb-3">{config.title}</h3>
+                        <ManualTable
+                            columns={config.columns}
+                            rows={config.rows}
+                            value={data[config.id] || {}}
+                            onChange={(tableData) => handleTableChange(config.id, tableData)}
+                            readOnly={readOnly}
+                        />
+                        <p className="text-xs text-slate-600 italic px-1">{config.note}</p>
                     </div>
                 </div>
             );
@@ -622,6 +624,7 @@ export function PatientEvaluations({ patientId }) {
         const isView = mode === 'view';
         const typeKey = isView ? viewingEvaluation.type : selectedType;
         const typeInfo = EVAL_TYPES[typeKey];
+        const buttonAccentClass = getAccentBg(typeInfo.color);
         const data = isView ? viewingEvaluation.data : newEvaluationData;
         const setData = isView ? () => { } : setNewEvaluationData;
 
@@ -694,7 +697,7 @@ export function PatientEvaluations({ patientId }) {
                         <div className="mt-8 flex justify-end">
                             <button
                                 onClick={handleSave}
-                                className={`bg-${typeInfo.color}-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-${typeInfo.color}-700 flex items-center transition-transform hover:scale-105`}
+                                className={`${buttonAccentClass} text-white px-8 py-3 rounded-xl font-bold shadow-lg flex items-center transition-transform hover:scale-105`}
                             >
                                 <Save className="mr-2" size={20} />
                                 Guardar Evaluación
@@ -729,7 +732,7 @@ export function PatientEvaluations({ patientId }) {
                         <h3 className="text-lg font-bold text-cyan-800 mb-4">CARS-2 HF (Severidad)</h3>
                         <div className="h-72 w-full">
                             <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={cars2Data}>
+                                <LineChart data={cars2HfData}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                     <XAxis dataKey="date" tickFormatter={d => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} />
                                     <YAxis domain={[0, 90]} label={{ value: 'Puntaje T', angle: -90, position: 'insideLeft' }} />
