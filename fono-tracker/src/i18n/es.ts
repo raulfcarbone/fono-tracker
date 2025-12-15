@@ -168,6 +168,7 @@ export const es = {
         labels: {
           category: 'Categoría',
           difficulty: 'Dificultad',
+          locale: 'Variante de español',
           therapistMode: 'Modo terapeuta',
           therapistNote: 'Muestra pista y respuesta',
           situation: 'Situación y pregunta',
@@ -181,6 +182,11 @@ export const es = {
           1: 'Nivel 1: apoyo guiado',
           2: 'Nivel 2: desafío moderado',
           3: 'Nivel 3: inferencia compleja',
+        },
+        localeOptions: {
+          neutral: 'Español neutro',
+          chile: 'Chile (modismos opcionales)',
+          all: 'Mostrar todos',
         },
         categories: {
           inferencia: 'Inferencias',
@@ -199,6 +205,17 @@ export const es = {
         justification: {
           title: 'Fase de justificación (metapragmática)',
           prompts: ['Porque…', 'Se entiende que…', 'La pista es…'],
+        },
+        guide: {
+          title: 'Guía terapeuta',
+          scaffoldingTitle: 'Pistas de andamiaje',
+          scaffolding: [
+            '¿Qué evidencia del texto te ayuda?',
+            '¿Es literal o es una forma de decir?',
+            '¿Qué pasaría si…?',
+          ],
+          connectorsTitle: 'Conectores para justificar',
+          connectors: ['Porque…', 'Eso se infiere por…', 'Una pista es…'],
         },
         progress: {
           title: 'Aciertos por categoría',

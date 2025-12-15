@@ -6,6 +6,7 @@ export type GameItem = {
   id: string;
   category: Category;
   difficulty: Difficulty;
+  locale?: 'general' | 'cl';
   prompt: string;
   question: string;
   options: string[];

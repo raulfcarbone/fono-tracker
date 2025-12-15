@@ -68,6 +68,7 @@ export function MeaningDetectiveGame({
 
   const [category, setCategory] = useState<Category>('inferencia');
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
+  const [localeFilter, setLocaleFilter] = useState<'general' | 'cl' | 'all'>('general');
   const [poolIndex, setPoolIndex] = useState(0);
   const [choice, setChoice] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -83,16 +84,28 @@ export function MeaningDetectiveGame({
     [t]
   );
 
+  const hasLocaleVariants = useMemo(() => bank.some(item => item.locale === 'cl'), [bank]);
+
   const pool = useMemo(() => {
-    const filtered = bank.filter(item => item.category === category && item.difficulty === difficulty);
+    const filtered = bank.filter(item => {
+      const locale = item.locale ?? 'general';
+      const localeMatches =
+        localeFilter === 'all'
+          ? true
+          : localeFilter === 'general'
+          ? locale === 'general'
+          : locale === localeFilter;
+
+      return item.category === category && item.difficulty === difficulty && localeMatches;
+    });
     return shuffle(filtered);
-  }, [bank, category, difficulty]);
+  }, [bank, category, difficulty, localeFilter]);
 
   useEffect(() => {
     setPoolIndex(0);
     setChoice(null);
     setShowExplanation(false);
-  }, [category, difficulty]);
+  }, [category, difficulty, localeFilter]);
 
   const item: GameItem | undefined = pool[poolIndex];
   const answered = choice !== null;
@@ -141,6 +154,14 @@ export function MeaningDetectiveGame({
 
   const justificationPrompts: string[] = t(
     'interactiveActivities.games.meaningDetective.justification.prompts',
+    []
+  );
+  const therapistScaffolding: string[] = t(
+    'interactiveActivities.games.meaningDetective.guide.scaffolding',
+    []
+  );
+  const therapistConnectors: string[] = t(
+    'interactiveActivities.games.meaningDetective.guide.connectors',
     []
   );
 
@@ -206,6 +227,23 @@ export function MeaningDetectiveGame({
             ))}
           </select>
         </label>
+
+        {hasLocaleVariants ? (
+          <label className="flex flex-col space-y-1 text-xs uppercase tracking-wide text-slate-500">
+            <span>{t('interactiveActivities.games.meaningDetective.labels.locale')}</span>
+            <select
+              value={localeFilter}
+              onChange={e => setLocaleFilter(e.target.value as 'general' | 'cl' | 'all')}
+              className="border border-slate-200 rounded-md px-3 py-2 text-sm bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+            >
+              <option value="general">
+                {t('interactiveActivities.games.meaningDetective.localeOptions.neutral')}
+              </option>
+              <option value="all">{t('interactiveActivities.games.meaningDetective.localeOptions.all')}</option>
+              <option value="cl">{t('interactiveActivities.games.meaningDetective.localeOptions.chile')}</option>
+            </select>
+          </label>
+        ) : null}
 
         <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-xs text-slate-700">
           <label className="flex items-center gap-2">
@@ -359,6 +397,36 @@ export function MeaningDetectiveGame({
           </div>
         )}
       </div>
+
+      {therapistMode ? (
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-700 space-y-2">
+          <p className="font-semibold text-slate-800">
+            {t('interactiveActivities.games.meaningDetective.guide.title')}
+          </p>
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <p className="font-semibold text-slate-700">
+                {t('interactiveActivities.games.meaningDetective.guide.scaffoldingTitle')}
+              </p>
+              <ul className="list-disc list-inside space-y-0.5">
+                {therapistScaffolding.map(prompt => (
+                  <li key={prompt}>{prompt}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-1">
+              <p className="font-semibold text-slate-700">
+                {t('interactiveActivities.games.meaningDetective.guide.connectorsTitle')}
+              </p>
+              <ul className="list-disc list-inside space-y-0.5">
+                {therapistConnectors.map(prompt => (
+                  <li key={prompt}>{prompt}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
