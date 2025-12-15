@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Users, LayoutDashboard, Settings, Activity, Calendar, Sparkles } from 'lucide-react';
+import { Users, LayoutDashboard, Settings, Activity, Calendar, Sparkles, Gamepad2 } from 'lucide-react';
 import clsx from 'clsx';
 
 function NavItem({ to, icon, children }) {
@@ -40,6 +40,7 @@ export function Layout() {
                     <NavItem to="/dashboard" icon={LayoutDashboard}>Dashboard</NavItem>
                     <NavItem to="/calendar" icon={Calendar}>Agenda</NavItem>
                     <NavItem to="/activities" icon={Sparkles}>Actividades</NavItem>
+                    <NavItem to="/actividades-interactivas" icon={Gamepad2}>Actividades interactivas</NavItem>
                     <NavItem to="/patients" icon={Users}>Pacientes</NavItem>
                 </nav>
 
